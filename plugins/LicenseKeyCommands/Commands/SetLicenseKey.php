@@ -23,11 +23,14 @@ class SetLicenseKey extends ConsoleCommand
     {
         $this->setName('license:set');
         $this->setDescription('Set license key');
-        $this->addOption('licenseKey', null, InputOption::VALUE_REQUIRED, 'License key');
+        $this->addOptionalValueOption('licenseKey', null, InputOption::VALUE_REQUIRED, 'License key');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        
         $licenseKey = trim($input->getOption('licenseKey'));
 
         try {
@@ -39,5 +42,7 @@ class SetLicenseKey extends ConsoleCommand
         }
 
         $this->writeSuccessMessage($output, array("Successfully set license key"));
+
+        return self::SUCCESS;
     }
 }
