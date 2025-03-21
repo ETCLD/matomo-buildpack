@@ -24,16 +24,16 @@ class CreateSuperuser extends ConsoleCommand
     {
         $this->setName('admin:create-superuser');
         $this->setDescription('Create a superuser for this instance of matomo');
-        $this->addOption('login', null, InputOption::VALUE_REQUIRED,
-            'Login for new superuser');
-        $this->addOption('email', null, InputOption::VALUE_REQUIRED,
-            'Email for new superuser');
-        $this->addOption('password', null, InputOption::VALUE_REQUIRED,
-            'Password for new superuser');
+        $this->addOptionalValueOption('login', null, InputOption::VALUE_REQUIRED, 'Login for new superuser');
+        $this->addOptionalValueOption('email', null, InputOption::VALUE_REQUIRED, 'Email for new superuser');
+        $this->addOptionalValueOption('password', null, InputOption::VALUE_REQUIRED, 'Password for new superuser');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         $login = $input->getOption('login');
         $email = $input->getOption('email');
         $password = $input->getOption('password');
@@ -51,5 +51,7 @@ class CreateSuperuser extends ConsoleCommand
         }
 
         $this->writeSuccessMessage($output, array("Successfully created superuser " . $login . " (" . $email . ")"));
+
+        return self::SUCCESS;
     }
 }
