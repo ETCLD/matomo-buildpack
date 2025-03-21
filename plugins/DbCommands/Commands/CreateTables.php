@@ -25,8 +25,11 @@ class CreateTables extends ConsoleCommand
         $this->setDescription('Create all database tables');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+
         try {
             DbHelper::createTables();
         } catch (\Exception $ex) {
@@ -36,5 +39,7 @@ class CreateTables extends ConsoleCommand
         }
 
         $this->writeSuccessMessage($output, array("Successfully created tables"));
+
+        return self::SUCCESS;
     }
 }
