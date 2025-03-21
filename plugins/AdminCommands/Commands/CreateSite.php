@@ -24,16 +24,16 @@ class CreateSite extends ConsoleCommand
     {
         $this->setName('admin:create-site');
         $this->setDescription('Create a site this instance of matomo');
-        $this->addOption('name', null, InputOption::VALUE_REQUIRED,
-            'Name of the site');
-        $this->addOption('url', null, InputOption::VALUE_REQUIRED,
-            'URL to the website');
-        $this->addOption('ecommerce', null, InputOption::VALUE_NONE | InputOption::VALUE_OPTIONAL,
-            'If the site is an ecommerce website');
+        $this->addOptionalValueOption('name', null, InputOption::VALUE_REQUIRED, 'Name of the site');
+        $this->addOptionalValueOption('url', null, InputOption::VALUE_REQUIRED, 'URL to the website');
+        $this->addOptionalValueOption('ecommerce', null, InputOption::VALUE_NONE | InputOption::VALUE_OPTIONAL, 'If the site is an ecommerce website');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function doExecute(): int
     {
+        $input = $this->getInput();
+        $output = $this->getOutput();
+        
         $name = $input->getOption('name');
         $url = $input->getOption('url');
         $ecommerce = $input->getOption('ecommerce');
@@ -50,5 +50,7 @@ class CreateSite extends ConsoleCommand
 
         $this->writeSuccessMessage($output, array("Successfully created site " . $name . " (" . $url . ")"));
         $this->writeSuccessMessage($output, array("Think to add " . $url . " hostname to trusted hosts."));
+
+        return self::SUCCESS;
     }
 }
